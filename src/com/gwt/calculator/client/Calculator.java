@@ -1,6 +1,13 @@
 package com.gwt.calculator.client;
 
+import com.gwt.calculator.client.handlers.BtnOperationClickHandler;
+import com.gwt.calculator.client.handlers.CBtnClickHandler;
+import com.gwt.calculator.client.handlers.CEBtnClickHandler;
+import com.gwt.calculator.client.handlers.NumericBtnClickHandler;
+import com.gwt.calculator.client.handlers.SignChangeClickHandler;
 import com.gwt.calculator.shared.FieldVerifier;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.form.TextField;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,11 +23,15 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwt.calculator.client.GlobalVars.operation;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Calculator implements EntryPoint {
+
+	private TextField inputField;
+
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -33,6 +44,121 @@ public class Calculator implements EntryPoint {
 	 */
 	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 
+	public void createCalculator() {
+		inputField = new TextField();
+		RootPanel.get("inputFieldContainer").add(inputField);
+		addNumericButtons();
+		addFirstLineButtons();
+		addOperationalButtons();
+
+	}
+
+	/**
+	 * Añade los botones de la primera fila del formulario, es decir C y CE
+	 */
+	public void addFirstLineButtons() {
+		//Creamos los botones con el texto que debe aparecer
+
+		final TextButton btnC = new TextButton("C");
+		final TextButton btnCE = new TextButton("CE");
+
+		//Los asignamos al html
+		RootPanel.get("firstLineButtonContainer").add(btnC);
+		RootPanel.get("firstLineButtonContainer").add(btnCE);
+		//RootPanel.get("firstLineButtonContainer").add(btnNuevoButton);
+
+		//Añadimos un manejador del evento click
+		btnC.addSelectHandler(new CBtnClickHandler(inputField));
+		btnCE.addSelectHandler(new CEBtnClickHandler(inputField));
+
+		GlobalVars.operingOne = 0.0;
+
+	}
+
+	public void addOperationalButtons() {
+		//Creamos los botones con el texto que debe aparecer
+
+		final TextButton btnSignChange = new TextButton("+/-");
+		final TextButton btnPercentaje = new TextButton("%");
+		final TextButton btnAdd = new TextButton("+");
+		final TextButton btnSubstract = new TextButton("-");
+		final TextButton btnMultiply = new TextButton("*");
+		final TextButton btnDivide = new TextButton("/");
+
+		final TextButton btnResult = new TextButton("=");
+
+		//Los asignamos al html
+		RootPanel.get("secondLineButtonContainer").add(btnSignChange);
+		RootPanel.get("secondLineButtonContainer").add(btnPercentaje);
+
+		RootPanel.get("thirdLineButtonContainer").add(btnAdd);
+		RootPanel.get("thirdLineButtonContainer").add(btnSubstract);
+
+		RootPanel.get("fourthLineButtonContainer").add(btnMultiply);
+		RootPanel.get("fourthLineButtonContainer").add(btnDivide);
+
+		RootPanel.get("fithLineButtonContainer").add(btnResult);
+
+		//RootPanel.get("firstLineButtonContainer").add(btnNuevoButton);
+
+		//Añadimos un manejador del evento click
+		btnSignChange.addSelectHandler(new SignChangeClickHandler(inputField));
+		//
+		btnPercentaje.addSelectHandler(new BtnOperationClickHandler(inputField, operation.PERCENTAJE));
+		btnAdd.addSelectHandler(new BtnOperationClickHandler(inputField, operation.ADD));
+		btnSubstract.addSelectHandler(new BtnOperationClickHandler(inputField, operation.SUBTRACT));
+		btnMultiply.addSelectHandler(new BtnOperationClickHandler(inputField, operation.MULTIPLICATION));
+		btnDivide.addSelectHandler(new BtnOperationClickHandler(inputField, operation.DIVISION));
+		btnResult.addSelectHandler(new BtnOperationClickHandler(inputField, operation.RESULT));
+
+	}
+
+	/**
+	 * Añade los botones numéricos al formulario
+	 */
+	public void addNumericButtons() {
+		//Creamos los botones con el texto que debe aparecer
+
+		final TextButton btnOne = new TextButton("1");
+		final TextButton btnTwo = new TextButton("2");
+		final TextButton btnThree = new TextButton("3");
+		final TextButton btnFour = new TextButton("4");
+		final TextButton btnFive = new TextButton("5");
+		final TextButton btnSix = new TextButton("6");
+		final TextButton btnSeven = new TextButton("7");
+		final TextButton btnEight = new TextButton("8");
+		final TextButton btnNine = new TextButton("9");
+		final TextButton btnZero = new TextButton("0");
+		final TextButton btnDecimalPoint = new TextButton(".");
+
+		//Los asignamos al html
+
+		RootPanel.get("secondLineButtonContainer").add(btnOne);
+		RootPanel.get("secondLineButtonContainer").add(btnTwo);
+		RootPanel.get("secondLineButtonContainer").add(btnThree);
+		RootPanel.get("thirdLineButtonContainer").add(btnFour);
+		RootPanel.get("thirdLineButtonContainer").add(btnFive);
+		RootPanel.get("thirdLineButtonContainer").add(btnSix);
+		RootPanel.get("fourthLineButtonContainer").add(btnSeven);
+		RootPanel.get("fourthLineButtonContainer").add(btnEight);
+		RootPanel.get("fourthLineButtonContainer").add(btnNine);
+		RootPanel.get("fithLineButtonContainer").add(btnZero);
+		RootPanel.get("fithLineButtonContainer").add(btnDecimalPoint);
+
+		//Añadimos un manejador del evento click
+		btnOne.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnTwo.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnThree.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnFour.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnFive.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnSix.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnSeven.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnEight.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnNine.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnZero.addSelectHandler(new NumericBtnClickHandler(inputField));
+		btnDecimalPoint.addSelectHandler(new NumericBtnClickHandler(inputField));
+	}
+
 	/**
 	 * This is the entry point method.
 	 */
@@ -44,6 +170,7 @@ public class Calculator implements EntryPoint {
 
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
+		createCalculator();
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
@@ -143,4 +270,5 @@ public class Calculator implements EntryPoint {
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
 	}
+
 }
