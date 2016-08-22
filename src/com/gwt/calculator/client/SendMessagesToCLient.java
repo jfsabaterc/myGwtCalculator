@@ -27,6 +27,13 @@ public class SendMessagesToCLient {
 		messageToSend = messageToSend + CRLF + message;
 
 	}
+	
+	/**
+	 * Muestra en el cliente el mensaje generado
+	 */
+	public static void sendMessage() {
+		alertWidget(messageToSend).center();
+	}
 
 	/**
 	 * Muestra una ventada en el cliente, con un header por defecto

@@ -1,6 +1,6 @@
 package com.gwt.calculator.client;
 
-import com.google.gwt.user.client.ui.TextBox;
+
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;

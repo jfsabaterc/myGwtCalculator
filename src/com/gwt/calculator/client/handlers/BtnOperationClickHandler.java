@@ -29,6 +29,8 @@ public class BtnOperationClickHandler implements SelectHandler {
 	public void onSelect(SelectEvent event) {
 		String text;
 		Double nuevoNumero;
+		
+		
 		mensajeString = new String();
 		//Obtenemos el texto del display
 		text = textBox.getText();
@@ -36,20 +38,15 @@ public class BtnOperationClickHandler implements SelectHandler {
 		//Tratamos de convertir el valor a double
 		nuevoNumero = Double.parseDouble(text);
 
-		SendMessagesToCLient.clearMessage();
-
+		
 		//Si tenemos operación pendiente, y ya habíamos cargado algo para operar (la otra parte del if)
 		if (GlobalVars.lastOperation != null && GlobalVars.operingOne != null) {
-
-			SendMessagesToCLient.addMessage("Entramos a operar");
-			SendMessagesToCLient.addMessage("GlobalVars.operingOne: " + GlobalVars.operingOne.toString());
-			SendMessagesToCLient.addMessage("GlobalVars.operingTwo: " + GlobalVars.operingTwo.toString());
+			
 			
 			//El operando 1 es el número antiguo
 			
 			//El operando 2 es el nuevo número
 			GlobalVars.operingTwo = nuevoNumero;
-
 			//Operamos
 			operate();
 
@@ -59,13 +56,11 @@ public class BtnOperationClickHandler implements SelectHandler {
 			//Actualizamos el display
 			textBox.setText(text);
 			
-			SendMessagesToCLient.addMessage("Resultado al display: " + text);
-
+						
 		} else {
 			//El nuevo número pulsado pasa a ser el primer operando
 			GlobalVars.operingOne = nuevoNumero;
-			SendMessagesToCLient.addMessage("GlobalVars.operingOne = nuevoNumero;" + GlobalVars.operingOne);
-
+			
 		}
 
 		//Actualizamos lo operación pulsada
@@ -73,10 +68,6 @@ public class BtnOperationClickHandler implements SelectHandler {
 
 		GlobalVars.lastOperation = op;
 		
-		SendMessagesToCLient.addMessage("GlobalVars.lastOperation=op: " + GlobalVars.lastOperation.toString());
-		SendMessagesToCLient.addMessage("GlobalVars.operingOne: " + GlobalVars.operingOne.toString());
-				
-
 		//Actualizamos el valor del último botón pulsado
 		GlobalVars.lastPressedBtn = pressedButton.FUNCTION;
 
@@ -86,6 +77,7 @@ public class BtnOperationClickHandler implements SelectHandler {
 	 * Operamos dependiendo de la función seleccionada
 	 */
 	public void operate() {
+
 		switch (op) {
 		case ADD:
 			//Sumamos el valor a lo que teníamos en la memoria
@@ -109,13 +101,15 @@ public class BtnOperationClickHandler implements SelectHandler {
 			GlobalVars.operingTwo = null;
 			break;
 		case PERCENTAJE:
-			//Dividimos el valor a lo que teníamos en la memoria
-			GlobalVars.operingOne /= GlobalVars.operingTwo;
+			//Calculamos el porcentaje con una regla de 3
+			GlobalVars.operingOne = (GlobalVars.operingOne * GlobalVars.operingTwo)/100;
 
 			break;
 		default:
 			break;
 		}
-
+		
 	}
+		
+	
 }
